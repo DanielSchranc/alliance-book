@@ -10,10 +10,9 @@ export type HTTPGet<T, R = HTTPResponse<T>> = (
   config?: HTTPOptions,
 ) => Promise<R>;
 
-// TODO: Replace url with environment variable
-export const API_URL = "https://swapi.py4e.com/api/";
-
-export const httpClient = axios.create({
-  baseURL: API_URL,
-  withCredentials: true,
-});
+export function httpClient(apiUrl: string) {
+  return axios.create({
+    baseURL: apiUrl,
+    withCredentials: false,
+  });
+}
