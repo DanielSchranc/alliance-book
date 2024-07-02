@@ -3,6 +3,8 @@ import { QueryClient, QueryClientProvider } from "@tanstack/react-query";
 import * as React from "react";
 import * as ReactDOM from "react-dom/client";
 
+import { App } from "./App";
+
 const queryClient = new QueryClient();
 
 const container = document.getElementById("root")! as HTMLElement;
@@ -12,7 +14,7 @@ root.render(
   <React.StrictMode>
     <QueryClientProvider client={queryClient}>
       <ChakraProvider>
-        <>{"Alliance Book"}</>
+        <App />
       </ChakraProvider>
     </QueryClientProvider>
   </React.StrictMode>,
