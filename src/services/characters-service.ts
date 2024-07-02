@@ -34,3 +34,8 @@ export async function getCharacters() {
   const res = await http.get<Characters>("/people/");
   return res.data;
 }
+
+export async function getCharacterDetails(id: string) {
+  const res = await http.get<Character>(`/people/${id}`);
+  return res.data;
+}
