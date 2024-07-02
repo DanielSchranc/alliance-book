@@ -1,4 +1,5 @@
 import { Route, Routes } from "react-router-dom";
+import { Layout } from "src/components/Layout";
 import { CharacterDetailsPage } from "src/pages/CharacterDetailsPage";
 
 import { CharactersPage } from "../pages/CharactersPage";
@@ -12,8 +13,10 @@ export const PATHS = {
 export function Router() {
   return (
     <Routes>
-      <Route path={PATHS.home} element={<CharactersPage />} />
-      <Route path={PATHS.character} element={<CharacterDetailsPage />} />
+      <Route path={PATHS.home} element={<Layout />}>
+        <Route path={PATHS.home} element={<CharactersPage />} />
+        <Route path={PATHS.character} element={<CharacterDetailsPage />} />
+      </Route>
       <Route path="*" element={<NotFoundPage />} />
     </Routes>
   );
