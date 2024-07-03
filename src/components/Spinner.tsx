@@ -6,7 +6,7 @@ type SpinnerProps = {
 
 export function Spinner(props: SpinnerProps) {
   return (
-    <Stack h="100vh" justifyContent="center" alignItems="center">
+    <Stack h="60vh" justifyContent="center" alignItems="center">
       <ChakraSpinner
         thickness="5px"
         speed="0.7s"
