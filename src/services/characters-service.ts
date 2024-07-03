@@ -20,7 +20,7 @@ export type Character = {
 };
 export type Characters = {
   count: number;
-  next: string;
+  next: null | string;
   previous: null | string;
   results: Character[];
 };

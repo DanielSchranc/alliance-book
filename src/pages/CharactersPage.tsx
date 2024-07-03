@@ -4,11 +4,13 @@ import * as React from "react";
 import { useNavigate } from "react-router-dom";
 
 import { ImageCard } from "../components/ImageCard";
+import { Pagination } from "../components/Pagination";
 import { SearchInput } from "../components/SearchInput";
 import { Spinner } from "../components/Spinner";
 import * as charactersService from "../services/characters-service";
 
 export function CharactersPage() {
+  const RESULTS_PER_PAGE = 10;
   const breakpoints = useBreakpointValue({
     base: "repeat(2, 1fr)",
     md: "repeat(5, 1fr)",
@@ -17,12 +19,18 @@ export function CharactersPage() {
   const navigate = useNavigate();
 
   const [search, setSearch] = React.useState("");
+  const [page, setPage] = React.useState(1);
 
   const { data, refetch, isFetching, isLoading } = useQuery({
-    queryKey: ["ab-characters", search],
+    queryKey: ["ab-characters", search, page],
     queryFn: async () => {
       const params = new URLSearchParams();
-      params.append("search", search);
+
+      if (search.length) {
+        params.append("search", search);
+      }
+
+      params.append("page", `${page}`);
 
       return charactersService.getCharacters(params);
     },
@@ -39,7 +47,7 @@ export function CharactersPage() {
 
   return (
     <>
-      <Flex justify="flex-end">
+      <Flex justify="space-between">
         <SearchInput
           placeholder="Search character"
           onSearch={(value) => {
@@ -47,6 +55,16 @@ export function CharactersPage() {
             refetch();
           }}
         />
+        {data && (
+          <Pagination
+            page={page}
+            total={Math.ceil(data?.count / RESULTS_PER_PAGE)}
+            onSetPage={(value) => {
+              setPage(value);
+              refetch();
+            }}
+          />
+        )}
       </Flex>
 
       {isFetching || isLoading ? (
