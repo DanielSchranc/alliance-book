@@ -49,7 +49,7 @@ export function Layout() {
           icon={colorMode === "dark" ? <DarkModeIcon /> : <LightModeIcon />}
         />
       </Flex>
-      <Container as="main" mt={20} maxW="max-content" padding="2em">
+      <Container as="main" mt={20} maxW="unset" padding="1em 2em">
         <Outlet />
       </Container>
     </>
