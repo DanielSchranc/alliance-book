@@ -1,8 +1,10 @@
-import { Grid, GridItem, useBreakpointValue } from "@chakra-ui/react";
+import { Flex, Grid, GridItem, useBreakpointValue } from "@chakra-ui/react";
 import { useQuery } from "@tanstack/react-query";
+import * as React from "react";
 import { useNavigate } from "react-router-dom";
 
 import { ImageCard } from "../components/ImageCard";
+import { SearchInput } from "../components/SearchInput";
 import { Spinner } from "../components/Spinner";
 import * as charactersService from "../services/characters-service";
 
@@ -14,9 +16,16 @@ export function CharactersPage() {
 
   const navigate = useNavigate();
 
-  const { data, isFetching, isLoading } = useQuery({
-    queryKey: ["ab-characters"],
-    queryFn: async () => charactersService.getCharacters(),
+  const [search, setSearch] = React.useState("");
+
+  const { data, refetch, isFetching, isLoading } = useQuery({
+    queryKey: ["ab-characters", search],
+    queryFn: async () => {
+      const params = new URLSearchParams();
+      params.append("search", search);
+
+      return charactersService.getCharacters(params);
+    },
     retry: 0,
     refetchOnWindowFocus: false,
   });
@@ -28,29 +37,39 @@ export function CharactersPage() {
     return id;
   };
 
-  if (isFetching || isLoading) {
-    return <Spinner />;
-  }
-
   return (
     <>
-      <Grid templateColumns={breakpoints} gap={5}>
-        {data?.results.map((res) => {
-          const characterId = trimIdFromUrl(res.url);
-          return (
-            <GridItem w="100%" h="100%" key={res.created}>
-              <ImageCard
-                src={`https://starwars-visualguide.com/assets/img/characters/${characterId}.jpg`}
-                alt={res.name}
-                title={res.name}
-                onClick={() => {
-                  navigate(`/character/${characterId}`);
-                }}
-              />
-            </GridItem>
-          );
-        })}
-      </Grid>
+      <Flex justify="flex-end">
+        <SearchInput
+          placeholder="Search character"
+          onSearch={(value) => {
+            setSearch(value);
+            refetch();
+          }}
+        />
+      </Flex>
+
+      {isFetching || isLoading ? (
+        <Spinner message="Loading characters..." />
+      ) : (
+        <Grid templateColumns={breakpoints} gap={5} marginTop={5}>
+          {data?.results.map((res) => {
+            const characterId = trimIdFromUrl(res.url);
+            return (
+              <GridItem w="100%" h="100%" key={res.created}>
+                <ImageCard
+                  src={`https://starwars-visualguide.com/assets/img/characters/${characterId}.jpg`}
+                  alt={res.name}
+                  title={res.name}
+                  onClick={() => {
+                    navigate(`/character/${characterId}`);
+                  }}
+                />
+              </GridItem>
+            );
+          })}
+        </Grid>
+      )}
     </>
   );
 }
