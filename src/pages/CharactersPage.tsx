@@ -1,4 +1,12 @@
-import { Flex, Grid, GridItem, useBreakpointValue } from "@chakra-ui/react";
+import {
+  Center,
+  Flex,
+  Grid,
+  GridItem,
+  Heading,
+  VStack,
+  useBreakpointValue,
+} from "@chakra-ui/react";
 import { useQuery } from "@tanstack/react-query";
 import * as React from "react";
 import { useNavigate } from "react-router-dom";
@@ -75,6 +83,14 @@ export function CharactersPage() {
           />
         )}
       </Flex>
+
+      {!isFetching && !isLoading && !data?.results.length && (
+        <Center pt={20}>
+          <VStack>
+            <Heading size="md">{"No results found for your search"}</Heading>
+          </VStack>
+        </Center>
+      )}
 
       {isFetching || isLoading ? (
         <Spinner message="Loading characters..." />
