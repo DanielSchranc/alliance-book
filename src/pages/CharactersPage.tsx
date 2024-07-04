@@ -11,7 +11,8 @@ import * as charactersService from "../services/characters-service";
 
 export function CharactersPage() {
   const RESULTS_PER_PAGE = 10;
-  const breakpoints = useBreakpointValue({
+
+  const gridBreakpoints = useBreakpointValue({
     base: "repeat(2, 1fr)",
     md: "repeat(5, 1fr)",
   });
@@ -47,7 +48,15 @@ export function CharactersPage() {
 
   return (
     <>
-      <Flex justify="space-between">
+      <Flex
+        gap={5}
+        align="center"
+        justify="space-between"
+        direction={{
+          base: "column",
+          md: "row",
+        }}
+      >
         <SearchInput
           placeholder="Search character"
           onSearch={(value) => {
@@ -70,7 +79,7 @@ export function CharactersPage() {
       {isFetching || isLoading ? (
         <Spinner message="Loading characters..." />
       ) : (
-        <Grid templateColumns={breakpoints} gap={5} marginTop={5}>
+        <Grid templateColumns={gridBreakpoints} gap={5} marginTop={5}>
           {data?.results.map((res) => {
             const characterId = trimIdFromUrl(res.url);
             return (

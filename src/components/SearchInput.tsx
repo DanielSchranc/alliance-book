@@ -18,7 +18,7 @@ export function SearchInput(props: SearchInputProps) {
   };
 
   return (
-    <Box>
+    <Box width={{ base: "100%", md: "auto" }}>
       <Input
         type="search"
         name="Search"
