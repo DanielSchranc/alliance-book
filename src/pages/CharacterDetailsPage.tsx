@@ -1,8 +1,9 @@
-import { Box } from "@chakra-ui/react";
+import { Box, Button, Center, VStack } from "@chakra-ui/react";
 import { useQuery } from "@tanstack/react-query";
-import { useParams } from "react-router-dom";
+import { Link, useParams } from "react-router-dom";
 
 import { Spinner } from "../components/Spinner";
+import { PATHS } from "../router/Router";
 import * as charactersService from "../services/characters-service";
 
 type CharacterUrlParams = {
@@ -23,5 +24,16 @@ export function CharacterDetailsPage() {
     return <Spinner />;
   }
 
-  return <Box>{data?.name}</Box>;
+  return (
+    <Center>
+      <VStack>
+        <Box>{data?.name}</Box>
+        <Box mt={30}>
+          <Button as={Link} to={PATHS.home}>
+            {"Back Home"}
+          </Button>
+        </Box>
+      </VStack>
+    </Center>
+  );
 }
