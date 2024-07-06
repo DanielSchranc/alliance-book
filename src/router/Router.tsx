@@ -16,8 +16,8 @@ export function Router() {
       <Route path={PATHS.home} element={<Layout />}>
         <Route path={PATHS.home} element={<CharactersPage />} />
         <Route path={PATHS.character} element={<CharacterDetailsPage />} />
+        <Route path="*" element={<NotFoundPage />} />
       </Route>
-      <Route path="*" element={<NotFoundPage />} />
     </Routes>
   );
 }
