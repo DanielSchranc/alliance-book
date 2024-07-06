@@ -1,12 +1,4 @@
-import {
-  Center,
-  Flex,
-  Grid,
-  GridItem,
-  Heading,
-  VStack,
-  useBreakpointValue,
-} from "@chakra-ui/react";
+import { Center, Flex, Grid, GridItem, Heading, VStack } from "@chakra-ui/react";
 import { useQuery } from "@tanstack/react-query";
 import * as React from "react";
 import { useNavigate } from "react-router-dom";
@@ -20,11 +12,6 @@ import * as charactersService from "../services/characters-service";
 
 export function CharactersPage() {
   const RESULTS_PER_PAGE = 10;
-
-  const gridBreakpoints = useBreakpointValue({
-    base: "repeat(2, 1fr)",
-    md: "repeat(5, 1fr)",
-  });
 
   const navigate = useNavigate();
   const [queryParams, setQueryParams] = useSearchParams();
@@ -92,7 +79,15 @@ export function CharactersPage() {
       {isFetching || isLoading ? (
         <Spinner message="Loading characters..." />
       ) : (
-        <Grid templateColumns={gridBreakpoints} gap={5} marginTop={5}>
+        <Grid
+          templateColumns={{
+            base: "1fr",
+            sm: "repeat(2, 1fr)",
+            lg: "repeat(5, 1fr)",
+          }}
+          gap={5}
+          marginTop={5}
+        >
           {data?.results.map((res) => {
             const characterId = trimIdFromUrl(res.url);
             return (

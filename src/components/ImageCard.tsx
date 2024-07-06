@@ -18,16 +18,23 @@ type ImageCardProps = {
 
 export function ImageCard(props: React.PropsWithChildren<ImageCardProps>) {
   return (
-    <Card maxW="sm" borderRadius="lg">
+    <Card maxW="fit-content" borderRadius="lg">
       <CardBody>
-        <Image src={props.src} alt={props.alt} objectFit="cover" borderRadius="lg" />
+        <Image
+          src={props.src}
+          alt={props.alt}
+          objectFit="cover"
+          maxW="100%"
+          height="auto"
+          borderRadius="lg"
+        />
         <Stack mt="6" spacing="3">
           <Heading size="md">{props.title}</Heading>
         </Stack>
       </CardBody>
       <CardFooter>
-        <Button variant="solid" colorScheme="blue" onClick={props.onClick}>
-          More details
+        <Button variant="solid" colorScheme="blue" w="100%" onClick={props.onClick}>
+          {"More details"}
         </Button>
       </CardFooter>
     </Card>
