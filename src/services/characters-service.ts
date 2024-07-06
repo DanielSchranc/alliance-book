@@ -30,8 +30,18 @@ export const API_URL = "https://swapi.py4e.com/api/";
 
 const http = httpClient(API_URL);
 
-export async function getCharacters(searchParams?: URLSearchParams) {
-  const res = await http.get<Characters>("/people/", { params: searchParams });
+export async function getCharacters(page?: number, search?: string) {
+  const params = new URLSearchParams();
+
+  if (search != null && search.length > 0) {
+    params.append("search", search);
+  }
+
+  if (page != null && page !== 0) {
+    params.append("page", `${page}`);
+  }
+
+  const res = await http.get<Characters>("/people/", { params });
   return res.data;
 }
 

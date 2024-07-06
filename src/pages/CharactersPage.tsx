@@ -10,6 +10,7 @@ import {
 import { useQuery } from "@tanstack/react-query";
 import * as React from "react";
 import { useNavigate } from "react-router-dom";
+import { useSearchParams } from "react-router-dom";
 
 import { ImageCard } from "../components/ImageCard";
 import { Pagination } from "../components/Pagination";
@@ -26,23 +27,16 @@ export function CharactersPage() {
   });
 
   const navigate = useNavigate();
+  const [queryParams, setQueryParams] = useSearchParams();
+
+  const currentPage = Number(queryParams.get("page"));
 
   const [search, setSearch] = React.useState("");
-  const [page, setPage] = React.useState(1);
+  const [page, setPage] = React.useState(currentPage || 1);
 
   const { data, refetch, isFetching, isLoading } = useQuery({
     queryKey: ["ab-characters", search, page],
-    queryFn: async () => {
-      const params = new URLSearchParams();
-
-      if (search.length) {
-        params.append("search", search);
-      }
-
-      params.append("page", `${page}`);
-
-      return charactersService.getCharacters(params);
-    },
+    queryFn: async () => charactersService.getCharacters(page, search),
     retry: 0,
     refetchOnWindowFocus: false,
   });
@@ -52,6 +46,12 @@ export function CharactersPage() {
     const [id] = parts.slice(-1);
 
     return id;
+  };
+
+  const handleSetPage = (value: number) => {
+    setPage(value);
+    setQueryParams({ page: `${value}` });
+    refetch();
   };
 
   return (
@@ -74,12 +74,9 @@ export function CharactersPage() {
         />
         {data && (
           <Pagination
-            page={page}
+            page={currentPage || page}
             total={Math.ceil(data?.count / RESULTS_PER_PAGE)}
-            onSetPage={(value) => {
-              setPage(value);
-              refetch();
-            }}
+            onSetPage={handleSetPage}
           />
         )}
       </Flex>
