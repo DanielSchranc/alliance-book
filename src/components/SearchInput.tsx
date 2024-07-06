@@ -1,4 +1,5 @@
-import { Box, Input } from "@chakra-ui/react";
+import { Box, Input, InputGroup, InputLeftElement } from "@chakra-ui/react";
+import SearchIcon from "@material-design-icons/svg/filled/search.svg";
 import * as React from "react";
 
 import { debounce } from "../utils/debounce";
@@ -19,12 +20,17 @@ export function SearchInput(props: SearchInputProps) {
 
   return (
     <Box width={{ base: "100%", md: "auto" }}>
-      <Input
-        type="search"
-        name="Search"
-        onChange={handleSearch}
-        placeholder={props.placeholder}
-      />
+      <InputGroup>
+        <InputLeftElement pointerEvents="none">
+          <SearchIcon />
+        </InputLeftElement>
+        <Input
+          type="search"
+          name="Search"
+          onChange={handleSearch}
+          placeholder={props.placeholder}
+        />
+      </InputGroup>
     </Box>
   );
 }
