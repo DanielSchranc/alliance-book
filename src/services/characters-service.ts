@@ -37,7 +37,7 @@ export async function getCharacters(page?: number, search?: string) {
     params.append("search", search);
   }
 
-  if (page != null && page !== 0) {
+  if (page != null && page !== 0 && !search?.length) {
     params.append("page", `${page}`);
   }
 
