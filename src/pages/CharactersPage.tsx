@@ -43,7 +43,6 @@ export function CharactersPage() {
     retry: 0,
     refetchOnWindowFocus: false,
   });
-  console.log(data?.results);
 
   const handleSetPage = (value: number) => {
     setPage(value);
