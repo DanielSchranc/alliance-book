@@ -20,6 +20,7 @@ import { SearchInput } from "../components/SearchInput";
 import { Select } from "../components/Select";
 import { Spinner } from "../components/Spinner";
 import * as charactersService from "../services/characters-service";
+import { trimIdFromUrl } from "../utils/url";
 
 export function CharactersPage() {
   const RESULTS_PER_PAGE = 10;
@@ -42,13 +43,7 @@ export function CharactersPage() {
     retry: 0,
     refetchOnWindowFocus: false,
   });
-
-  const trimIdFromUrl = (url: string) => {
-    const parts = url.split("/").filter((part) => part !== "");
-    const [id] = parts.slice(-1);
-
-    return id;
-  };
+  console.log(data?.results);
 
   const handleSetPage = (value: number) => {
     setPage(value);
