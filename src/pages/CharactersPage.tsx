@@ -4,10 +4,8 @@ import {
   Grid,
   GridItem,
   Heading,
-  Select,
   Theme,
   VStack,
-  chakra,
   useColorMode,
   useTheme,
 } from "@chakra-ui/react";
@@ -19,6 +17,7 @@ import { useSearchParams } from "react-router-dom";
 import { ImageCard } from "../components/ImageCard";
 import { Pagination } from "../components/Pagination";
 import { SearchInput } from "../components/SearchInput";
+import { Select } from "../components/Select";
 import { Spinner } from "../components/Spinner";
 import * as charactersService from "../services/characters-service";
 
@@ -91,18 +90,12 @@ export function CharactersPage() {
         />
         <Select
           placeholder="Select gender"
-          width={{ base: "100%", md: "auto" }}
+          options={[...charactersService.genders]}
           value={filter}
           onChange={(event) => {
             setFilter(event.target.value);
           }}
-        >
-          {charactersService.genders.map((gender, index) => (
-            <chakra.option key={`${gender}_${index}`} value={gender}>
-              {gender}
-            </chakra.option>
-          ))}
-        </Select>
+        />
         {data && (
           <Pagination
             page={currentPage || page}
