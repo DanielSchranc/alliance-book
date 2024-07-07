@@ -1,4 +1,4 @@
-import { httpClient } from "src/utils/http";
+import { httpClient } from "../utils/http";
 
 export const genders = ["male", "female", "none", "n/a"] as const;
 

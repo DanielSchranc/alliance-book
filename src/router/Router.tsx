@@ -1,7 +1,7 @@
 import { Route, Routes } from "react-router-dom";
-import { Layout } from "src/components/Layout";
-import { CharacterDetailsPage } from "src/pages/CharacterDetailsPage";
 
+import { Layout } from "../components/Layout";
+import { CharacterDetailsPage } from "../pages/CharacterDetailsPage";
 import { CharactersPage } from "../pages/CharactersPage";
 import { NotFoundPage } from "../pages/NotFoundPage";
 
