@@ -1,3 +1,4 @@
+import { API_URL } from "../utils/constants";
 import { httpClient } from "../utils/http";
 
 export const genders = ["male", "female", "none", "n/a"] as const;
@@ -27,9 +28,6 @@ export type Characters = {
   previous: null | string;
   results: Character[];
 };
-
-// TODO: Replace url with environment variable
-export const API_URL = "https://swapi.py4e.com/api/";
 
 const http = httpClient(API_URL);
 
