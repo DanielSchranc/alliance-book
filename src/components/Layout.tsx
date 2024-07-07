@@ -20,7 +20,7 @@ export function Layout() {
     <>
       <Flex
         as="header"
-        position="fixed"
+        position="sticky"
         top={0}
         zIndex={200}
         width="100%"
@@ -49,7 +49,7 @@ export function Layout() {
           icon={colorMode === "dark" ? <DarkModeIcon /> : <LightModeIcon />}
         />
       </Flex>
-      <Container as="main" mt={20} maxW="unset" padding="1em 2em">
+      <Container as="main" maxW="unset" padding="1em 2em">
         <Outlet />
       </Container>
     </>
