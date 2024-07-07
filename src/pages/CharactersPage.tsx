@@ -4,8 +4,10 @@ import {
   Grid,
   GridItem,
   Heading,
+  Select,
   Theme,
   VStack,
+  chakra,
   useColorMode,
   useTheme,
 } from "@chakra-ui/react";
@@ -31,6 +33,7 @@ export function CharactersPage() {
 
   const currentPage = Number(queryParams.get("page"));
 
+  const [filter, setFilter] = React.useState("");
   const [search, setSearch] = React.useState("");
   const [page, setPage] = React.useState(currentPage || 1);
 
@@ -53,6 +56,11 @@ export function CharactersPage() {
     setQueryParams({ page: `${value}` });
     refetch();
   };
+
+  const _data =
+    filter.length > 0
+      ? data?.results.filter((item) => item.gender === filter)
+      : data?.results;
 
   return (
     <>
@@ -81,6 +89,20 @@ export function CharactersPage() {
             refetch();
           }}
         />
+        <Select
+          placeholder="Select gender"
+          width={{ base: "100%", md: "auto" }}
+          value={filter}
+          onChange={(event) => {
+            setFilter(event.target.value);
+          }}
+        >
+          {charactersService.genders.map((gender, index) => (
+            <chakra.option key={`${gender}_${index}`} value={gender}>
+              {gender}
+            </chakra.option>
+          ))}
+        </Select>
         {data && (
           <Pagination
             page={currentPage || page}
@@ -98,9 +120,9 @@ export function CharactersPage() {
         </Center>
       )}
 
-      {isFetching || isLoading ? (
-        <Spinner message="Loading characters..." />
-      ) : (
+      {(isFetching || isLoading) && <Spinner message="Loading characters..." />}
+
+      {_data != null && (
         <Grid
           templateColumns={{
             base: "1fr",
@@ -110,7 +132,7 @@ export function CharactersPage() {
           gap={5}
           marginTop={5}
         >
-          {data?.results.map((res) => {
+          {_data.map((res) => {
             const characterId = trimIdFromUrl(res.url);
             return (
               <GridItem w="100%" h="100%" key={res.created}>

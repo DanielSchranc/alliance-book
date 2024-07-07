@@ -1,5 +1,8 @@
 import { httpClient } from "src/utils/http";
 
+export const genders = ["male", "female", "none", "n/a"] as const;
+
+export type Gender = (typeof genders)[number];
 export type Character = {
   name: string;
   height: string;
@@ -8,7 +11,7 @@ export type Character = {
   skin_color: string;
   eye_color: string;
   birth_year: string;
-  gender: string;
+  gender: Gender;
   homeworld: string;
   films: string[];
   species: string[];
