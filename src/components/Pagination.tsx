@@ -18,7 +18,7 @@ export function Pagination(props: PaginationProps) {
       <ButtonGroup>
         <IconButton
           onClick={() => onSetPage(1)}
-          disabled={page === 1}
+          isDisabled={page === 1}
           icon={<FirstPageIcon />}
           aria-label="First page"
           isRound={true}
@@ -27,7 +27,7 @@ export function Pagination(props: PaginationProps) {
         />
         <IconButton
           onClick={() => onSetPage(page - 1)}
-          disabled={page === 1}
+          isDisabled={page === 1}
           icon={<PrevPageIcon />}
           aria-label="Previous page"
           isRound={true}
@@ -44,7 +44,7 @@ export function Pagination(props: PaginationProps) {
         </Text>
         <IconButton
           onClick={() => onSetPage(page + 1)}
-          disabled={page === total}
+          isDisabled={page === total}
           icon={<NextPageIcon />}
           aria-label="Next page"
           isRound={true}
@@ -53,7 +53,7 @@ export function Pagination(props: PaginationProps) {
         />
         <IconButton
           onClick={() => onSetPage(9)}
-          disabled={page === total}
+          isDisabled={page === total}
           icon={<LastPageIcon />}
           aria-label="Last page"
           isRound={true}
