@@ -81,7 +81,15 @@ export function CharactersPage() {
 
       {(isFetching || isLoading) && <Spinner message="Loading characters..." />}
 
-      {_data != null && (
+      {_data != null && _data.length === 0 && (
+        <Center pt={20}>
+          <VStack>
+            <Heading size="md">{"No results found for your filter"}</Heading>
+          </VStack>
+        </Center>
+      )}
+
+      {_data != null && _data.length > 0 && (
         <Grid
           templateColumns={{
             base: "1fr",
