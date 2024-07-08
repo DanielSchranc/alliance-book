@@ -1,8 +1,6 @@
 import { API_URL } from "../utils/constants";
 import { httpClient } from "../utils/http";
 
-const http = httpClient(API_URL);
-
 export type Film = {
   title: string;
   episode_id: number;
@@ -26,6 +24,8 @@ export type Film = {
   edited: string;
   url: string;
 };
+
+const http = httpClient(API_URL);
 
 export async function getFilm(id: string) {
   const res = await http.get<Film>(`/films/${id}`);

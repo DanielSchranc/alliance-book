@@ -22,6 +22,7 @@ import { Spinner } from "../components/Spinner";
 import { PATHS } from "../router/Router";
 import * as charactersService from "../services/characters-service";
 import * as filmsService from "../services/films-service";
+import { IMG_URL } from "../utils/constants";
 import { trimIdFromUrl } from "../utils/url";
 
 type CharacterUrlParams = {
@@ -89,7 +90,7 @@ export function CharacterDetailsPage() {
         <Image
           objectFit="cover"
           maxW={{ base: "100%", sm: "200px" }}
-          src={`https://starwars-visualguide.com/assets/img/characters/${params.id!}.jpg`}
+          src={`${IMG_URL}/characters/${params.id!}.jpg`}
           alt={data?.name}
         />
 

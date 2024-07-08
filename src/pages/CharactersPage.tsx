@@ -20,6 +20,7 @@ import { SearchInput } from "../components/SearchInput";
 import { Select } from "../components/Select";
 import { Spinner } from "../components/Spinner";
 import * as charactersService from "../services/characters-service";
+import { IMG_URL } from "../utils/constants";
 import { trimIdFromUrl } from "../utils/url";
 
 export function CharactersPage() {
@@ -124,7 +125,7 @@ export function CharactersPage() {
             return (
               <GridItem w="100%" h="100%" key={res.created}>
                 <ImageCard
-                  src={`https://starwars-visualguide.com/assets/img/characters/${characterId}.jpg`}
+                  src={`${IMG_URL}/characters/${characterId}.jpg`}
                   alt={res.name}
                   title={res.name}
                   onClick={() => {
