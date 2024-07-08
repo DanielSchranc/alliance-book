@@ -1,14 +1,4 @@
-import {
-  Center,
-  Flex,
-  Grid,
-  GridItem,
-  Heading,
-  Theme,
-  VStack,
-  useColorMode,
-  useTheme,
-} from "@chakra-ui/react";
+import { Center, Grid, GridItem, Heading, VStack } from "@chakra-ui/react";
 import { useQuery } from "@tanstack/react-query";
 import * as React from "react";
 import { useNavigate } from "react-router-dom";
@@ -19,15 +9,13 @@ import { Pagination } from "../components/Pagination";
 import { SearchInput } from "../components/SearchInput";
 import { Select } from "../components/Select";
 import { Spinner } from "../components/Spinner";
+import { SubHeader } from "../components/SubHeader";
 import * as charactersService from "../services/characters-service";
 import { IMG_URL } from "../utils/constants";
 import { trimIdFromUrl } from "../utils/url";
 
 export function CharactersPage() {
   const RESULTS_PER_PAGE = 10;
-
-  const theme = useTheme<Theme>();
-  const { colorMode } = useColorMode();
 
   const navigate = useNavigate();
   const [queryParams, setQueryParams] = useSearchParams();
@@ -58,24 +46,7 @@ export function CharactersPage() {
 
   return (
     <>
-      <Flex
-        gap={5}
-        align="center"
-        justify="space-between"
-        direction={{
-          base: "column",
-          md: "row",
-        }}
-        padding="1rem"
-        borderRadius="1rem"
-        position="sticky"
-        top={20}
-        zIndex={10}
-        boxShadow="0 3px 6px rgba(0,0,0,0.16), 0 3px 6px rgba(0,0,0,0.23);"
-        background={
-          colorMode === "dark" ? theme.colors.gray[700] : theme.colors.gray[100]
-        }
-      >
+      <SubHeader>
         <SearchInput
           placeholder="Search character"
           onSearch={(value) => {
@@ -98,7 +69,7 @@ export function CharactersPage() {
             onSetPage={handleSetPage}
           />
         )}
-      </Flex>
+      </SubHeader>
 
       {!isFetching && !isLoading && !data?.results.length && (
         <Center pt={20}>

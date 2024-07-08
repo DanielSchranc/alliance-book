@@ -10,15 +10,13 @@ import {
   ListItem,
   Stack,
   Text,
-  Theme,
-  useColorMode,
-  useTheme,
 } from "@chakra-ui/react";
 import BackIcon from "@material-design-icons/svg/outlined/arrow_back.svg";
 import { useQueries, useQuery } from "@tanstack/react-query";
 import { Link, useParams } from "react-router-dom";
 
 import { Spinner } from "../components/Spinner";
+import { SubHeader } from "../components/SubHeader";
 import { PATHS } from "../router/Router";
 import * as charactersService from "../services/characters-service";
 import * as filmsService from "../services/films-service";
@@ -31,9 +29,6 @@ type CharacterUrlParams = {
 
 export function CharacterDetailsPage() {
   const params = useParams<CharacterUrlParams>();
-
-  const theme = useTheme<Theme>();
-  const { colorMode } = useColorMode();
 
   const { data, isFetching, isLoading } = useQuery({
     queryKey: ["ab-character", params.id],
@@ -59,28 +54,11 @@ export function CharacterDetailsPage() {
 
   return (
     <>
-      <Flex
-        gap={5}
-        align="center"
-        justify="space-between"
-        direction={{
-          base: "column",
-          md: "row",
-        }}
-        padding="1rem"
-        borderRadius="1rem"
-        position="sticky"
-        top={20}
-        zIndex={10}
-        boxShadow="0 3px 6px rgba(0,0,0,0.16), 0 3px 6px rgba(0,0,0,0.23);"
-        background={
-          colorMode === "dark" ? theme.colors.gray[700] : theme.colors.gray[100]
-        }
-      >
+      <SubHeader>
         <Button as={Link} to={PATHS.home} leftIcon={<BackIcon />}>
           {"Back Home"}
         </Button>
-      </Flex>
+      </SubHeader>
       <Card
         direction={{ base: "column", sm: "row" }}
         mt={5}
@@ -89,7 +67,7 @@ export function CharacterDetailsPage() {
       >
         <Image
           objectFit="cover"
-          maxW={{ base: "100%", sm: "200px" }}
+          maxW={{ base: "100%", sm: "45%", md: "30%" }}
           src={`${IMG_URL}/characters/${params.id!}.jpg`}
           alt={data?.name}
         />
