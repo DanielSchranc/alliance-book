@@ -20,8 +20,9 @@ import { SubHeader } from "../components/SubHeader";
 import { PATHS } from "../router/Router";
 import * as charactersService from "../services/characters-service";
 import * as filmsService from "../services/films-service";
+import * as planetsService from "../services/planets-service";
 import { IMG_URL } from "../utils/constants";
-import { trimIdFromUrl } from "../utils/url";
+import { isValidUrl, trimIdFromUrl } from "../utils/url";
 
 type CharacterUrlParams = {
   id: string;
@@ -30,19 +31,33 @@ type CharacterUrlParams = {
 export function CharacterDetailsPage() {
   const params = useParams<CharacterUrlParams>();
 
-  const { data, isFetching, isLoading } = useQuery({
+  const {
+    data: character,
+    isFetching,
+    isLoading,
+  } = useQuery({
     queryKey: ["ab-character", params.id],
     queryFn: async () => charactersService.getCharacterDetails(params.id!),
     retry: 0,
     refetchOnWindowFocus: false,
   });
 
+  const { data: homeworld } = useQuery({
+    queryKey: ["ab-planet", character?.url],
+    queryFn: async () =>
+      character && planetsService.getPlanet(trimIdFromUrl(character?.url)),
+    enabled: () => character != null,
+    retry: 0,
+    refetchOnWindowFocus: false,
+  });
+  console.log({ homeworld });
+
   const films = useQueries({
-    queries: data
-      ? data.films
+    queries: character
+      ? character.films
           .map((film) => trimIdFromUrl(film))
           .map((id) => ({
-            queryKey: ["film", id],
+            queryKey: ["ab-film", id],
             queryFn: async () => filmsService.getFilm(id),
           }))
       : [],
@@ -69,15 +84,15 @@ export function CharacterDetailsPage() {
           objectFit="cover"
           maxW={{ base: "100%", sm: "45%", md: "30%" }}
           src={`${IMG_URL}/characters/${params.id!}.jpg`}
-          alt={data?.name}
+          alt={character?.name}
         />
 
         <Stack>
           <CardBody>
-            <Heading size="lg">{data?.name}</Heading>
+            <Heading size="lg">{character?.name}</Heading>
             <List>
-              {data &&
-                Object.entries(data).map(([key, value], index) => {
+              {character &&
+                Object.entries(character).map(([key, value], index) => {
                   const isString = typeof value === "string";
                   return (
                     isString && (
@@ -88,7 +103,11 @@ export function CharacterDetailsPage() {
                             fontSize="lg"
                             mr={2}
                           >{`${key.split("_").join(" ")}:`}</Text>
-                          <Text as="i">{`${value}`}</Text>
+                          {isValidUrl(value) && value.includes("planets") ? (
+                            <Text as="i">{`${homeworld?.name}`}</Text>
+                          ) : (
+                            <Text as="i">{`${value}`}</Text>
+                          )}
                         </Flex>
                       </ListItem>
                     )
